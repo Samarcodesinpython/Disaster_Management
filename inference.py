@@ -56,10 +56,10 @@ except (ImportError, ModuleNotFoundError):
 # Configuration — Hugging Face router via OpenAI-compatible client
 # ---------------------------------------------------------------------------
 
-HF_TOKEN = os.getenv("HF_TOKEN")
+HF_TOKEN = os.getenv("HF_TOKEN") or os.getenv("OPENAI_API_KEY")
 if not HF_TOKEN:
     raise ValueError(
-        "Set HF_TOKEN to your Hugging Face API token "
+        "Set HF_TOKEN or OPENAI_API_KEY to your API token "
         "(create one at https://huggingface.co/settings/tokens — do not commit it)."
     )
 
@@ -135,10 +135,10 @@ def log_step(step: int, action: str, reward: float, done: bool, error: Optional[
     )
 
 
-def log_end(success: bool, steps: int, score: float, rewards: List[float]) -> None:
+def log_end(success: bool, steps: int, rewards: List[float]) -> None:
     rewards_str = ",".join(f"{r:.2f}" for r in rewards)
     print(
-        f"[END] success={str(success).lower()} steps={steps} score={score:.3f} rewards={rewards_str}",
+        f"[END] success={str(success).lower()} steps={steps} rewards={rewards_str}",
         flush=True,
     )
 
@@ -402,7 +402,7 @@ async def run_task(
         success = score >= 0.5
 
     finally:
-        log_end(success=success, steps=steps_taken, score=score, rewards=rewards)
+        log_end(success=success, steps=steps_taken, rewards=rewards)
 
     return score
 
