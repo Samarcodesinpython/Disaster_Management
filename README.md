@@ -2,7 +2,7 @@
 title: AI Disaster Response Coordinator
 emoji: 🚨
 colorFrom: red
-colorTo: orange
+colorTo: yellow
 sdk: docker
 pinned: false
 app_port: 8000
