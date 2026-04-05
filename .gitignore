@@ -129,4 +129,4 @@ venv.bak/
 
 # Project specific
 server_error.log
-uv.lock
+
