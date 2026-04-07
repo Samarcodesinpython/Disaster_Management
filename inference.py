@@ -299,7 +299,8 @@ def compute_task_score(
     )
 
     score = (0.6 * rescue_pct) + (0.2 * completion_bonus) + (0.2 * efficiency)
-    return min(max(score, 0.0), 1.0)
+    # Clamp score to strictly (0, 1) range as required by validator
+    return min(max(score, 0.01), 0.99)
 
 
 # Total people per difficulty (for grader)
