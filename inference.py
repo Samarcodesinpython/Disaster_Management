@@ -135,10 +135,10 @@ def log_step(step: int, action: str, reward: float, done: bool, error: Optional[
     )
 
 
-def log_end(success: bool, steps: int, rewards: List[float]) -> None:
+def log_end(success: bool, steps: int, rewards: List[float], score: float) -> None:
     rewards_str = ",".join(f"{r:.2f}" for r in rewards)
     print(
-        f"[END] success={str(success).lower()} steps={steps} rewards={rewards_str}",
+        f"[END] success={str(success).lower()} steps={steps} rewards={rewards_str} score={score:.4f}",
         flush=True,
     )
 
@@ -403,7 +403,7 @@ async def run_task(
         success = score >= 0.5
 
     finally:
-        log_end(success=success, steps=steps_taken, rewards=rewards)
+        log_end(success=success, steps=steps_taken, rewards=rewards, score=score)
 
     return score
 
@@ -427,9 +427,12 @@ async def main() -> None:
 
         # Print final summary
         avg_score = sum(scores.values()) / len(scores)
-        print(f"\n[SUMMARY] Average score: {avg_score:.3f}", flush=True)
+        # Ensure average is also strictly within (0, 1)
+        clamped_avg = min(max(avg_score, 0.01), 0.99)
+        
+        print(f"\n[SUMMARY] Average score: {clamped_avg:.4f}", flush=True)
         for name, sc in scores.items():
-            print(f"  {name}: {sc:.3f}", flush=True)
+            print(f"  {name}: {sc:.4f}", flush=True)
 
 
 if __name__ == "__main__":
