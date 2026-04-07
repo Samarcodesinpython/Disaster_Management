@@ -72,7 +72,7 @@ ENV PATH="/app/.venv/bin:$PATH"
 ENV PYTHONPATH="/app/env:$PYTHONPATH"
 
 # Enable OpenEnv Web Interface (Frontend)
-ENV ENABLE_WEB_INTERFACE=true
+ENV ENABLE_WEB_INTERFACE=false
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \

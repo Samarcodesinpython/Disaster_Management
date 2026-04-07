@@ -17,6 +17,9 @@ except (ImportError, ModuleNotFoundError):
     from models import DisasterAction, DisasterObservation
     from server.my_env_environment import DisasterResponseEnvironment
 
+# Disable Gradio UI (Web Interface)
+os.environ["ENABLE_WEB_INTERFACE"] = "false"
+
 app = create_app(
     DisasterResponseEnvironment,
     DisasterAction,
